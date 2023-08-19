@@ -169,6 +169,16 @@ function startGame() {
 
 //отслеживаем нажатия на клавиатуру и мышь
 
+if (/Android|iPhone|webOS|iPad|iPod|BlackBerry|IEMobile|Windows Phone|IOS/i.test(navigator.userAgent))
+{
+  window.addEventListener("touchstart", eventHandler);
+  window.addEventListener("touchstart", startGame);
+}
+else
+{
+  window.addEventListener("mousedown", eventHandler);
+}
+
 // обрабатываем нажатие мыши
 window.addEventListener("mousedown", eventHandler);
 // обрабатываем касание экрана
