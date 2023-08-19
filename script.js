@@ -15,8 +15,8 @@ const instructionElement = document.getElementById("instruction");
 const resultElement = document.getElementById("result");
 var muz = new Audio();
 var szmak = new Audio();
-muz.src = "https://cdn.jsdelivr.net/gh/bulbulstudia123321123/piramide1@77185861c2441f9dd1b21c9f2aebf3d577035815/pir.mp3";
-szmak.src = "https://cdn.jsdelivr.net/gh/bulbulstudia123321123/piramide1@77185861c2441f9dd1b21c9f2aebf3d577035815/sss.mp3";
+muz.src = "pir.mp3";
+szmak.src = "sss.mp3";
 
 // функция добавления нового слоя
 function addLayer(x, z, width, depth, direction) {
@@ -70,7 +70,10 @@ function cutBox(topLayer, overlap, size, delta) {
 
   //обновляем верхний блок в THREEJS
   topLayer.threejs.scale[direction] = overlap / size;
-  topLayer.threejs.position[direction] = delta / 2;
+  topLayer.threejs.position[direction] -= delta / 2;
+
+  //обновляем верхний блок в Cannonjs
+  topLayer.cannonjs.position[direction] -= delta / 2;
 
   //заменяем верхний блок меньшим, обрезанным блоком
   const shape = new CANNON.Box(
@@ -169,20 +172,21 @@ function startGame() {
 
 //отслеживаем нажатия на клавиатуру и мышь
 
-if (/Android|iPhone|webOS|iPad|iPod|BlackBerry|IEMobile|Windows Phone|IOS/i.test(navigator.userAgent))
-{
+if (
+  /Android|iPhone|webOS|iPad|iPod|BlackBerry|IEMobile|Windows Phone|IOS/i.test(
+    navigator.userAgent
+  )
+) {
   window.addEventListener("touchstart", eventHandler);
-  window.addEventListener("touchstart", startGame);
-}
-else
-{
+  window.addEventListener("touchmove", startGame);
+} else {
   window.addEventListener("mousedown", eventHandler);
 }
 
-// обрабатываем нажатие мыши
-window.addEventListener("mousedown", eventHandler);
-// обрабатываем касание экрана
-window.addEventListener("touchstart", eventHandler);
+// // обрабатываем нажатие мыши
+// window.addEventListener("mousedown", eventHandler);
+// // обрабатываем касание экрана
+// window.addEventListener("touchstart", eventHandler);
 
 window.addEventListener("keydown", function (event) {
   // если нажать пробел
